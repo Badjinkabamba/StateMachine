@@ -39,7 +39,7 @@ public class GenericWorkflowService<T extends Workflow> implements WorkflowServi
     @Override
     public void executeTransition(T entity, Transition transition) throws Exception {
         Event event = transition.getEvent();
-        List<String> roles = Arrays.asList("ROLE_USER");
+        List<String> roles = Arrays.asList("ROLE_USER_MANAGER");
         stateMachine.getExtendedState().getVariables().put("userRoles", roles);
         stateMachine.getExtendedState().getVariables().put("codeWorkflow", entity.getCodeWorkflow());
         stateMachine.stop();
@@ -55,6 +55,9 @@ public class GenericWorkflowService<T extends Workflow> implements WorkflowServi
         if (accepted) {
 
             State newState = stateService.getStateByName(stateMachine.getState().getId()); // Récupérer le nouvel état
+            if(newState.getName().equals(entity.getStatus().getName())) {
+                throw new Exception("Échec: vous n'avez pas le droit d'executer cette transition : " + entity.getId());
+            }
             entity.setStatus(newState);
 
             // Sauvegarder la commande avec son nouvel état
