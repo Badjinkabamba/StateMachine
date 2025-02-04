@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1" author="GestionWorkflow">
+        <addUniqueConstraint columnNames="NAME" constraintName="IDX_EVENT_UNQ" tableName="EVENT"/>
+    </changeSet>
+    <changeSet id="2" author="GestionWorkflow">
+        <addUniqueConstraint columnNames="NAME" constraintName="IDX_STATE_UNQ" tableName="STATE"/>
+    </changeSet>
+    <changeSet id="3" author="GestionWorkflow">
+        <createIndex indexName="IDX_ORDERS_STATUS" tableName="ORDERS">
+            <column name="STATUS_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="STATUS_ID" baseTableName="ORDERS" constraintName="FK_ORDERS_ON_STATUS"
+                                 referencedColumnNames="ID" referencedTableName="STATE"/>
+    </changeSet>
+    <changeSet id="4" author="GestionWorkflow">
+        <createIndex indexName="IDX_TRANSITION_EVENT" tableName="TRANSITION">
+            <column name="EVENT_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="EVENT_ID" baseTableName="TRANSITION"
+                                 constraintName="FK_TRANSITION_ON_EVENT" referencedColumnNames="ID"
+                                 referencedTableName="EVENT"/>
+    </changeSet>
+    <changeSet id="5" author="GestionWorkflow">
+        <createIndex indexName="IDX_TRANSITION_SOURCE_STATE" tableName="TRANSITION">
+            <column name="SOURCE_STATE_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="SOURCE_STATE_ID" baseTableName="TRANSITION"
+                                 constraintName="FK_TRANSITION_ON_SOURCE_STATE" referencedColumnNames="ID"
+                                 referencedTableName="STATE"/>
+    </changeSet>
+    <changeSet id="6" author="GestionWorkflow">
+        <createIndex indexName="IDX_TRANSITION_TARGET_STATE" tableName="TRANSITION">
+            <column name="TARGET_STATE_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="TARGET_STATE_ID" baseTableName="TRANSITION"
+                                 constraintName="FK_TRANSITION_ON_TARGET_STATE" referencedColumnNames="ID"
+                                 referencedTableName="STATE"/>
+    </changeSet>
+</databaseChangeLog>

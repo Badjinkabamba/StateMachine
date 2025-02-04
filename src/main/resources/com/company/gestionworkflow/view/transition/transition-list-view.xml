@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
+      title="msg://transitionListView.title"
+      focusComponent="transitionsDataGrid">
+    <data>
+        <collection id="transitionsDc"
+                    class="com.company.gestionworkflow.entity.Transition">
+            <fetchPlan extends="_base">
+                <property name="sourceState" fetchPlan="_base"/>
+                <property name="event" fetchPlan="_base"/>
+                <property name="targetState" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader id="transitionsDl" readOnly="true">
+                <query>
+                    <![CDATA[select e from Transition e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <urlQueryParameters>
+            <genericFilter component="genericFilter"/>
+            <pagination component="pagination"/>
+        </urlQueryParameters>
+    </facets>
+    <actions>
+        <action id="selectAction" type="lookup_select"/>
+        <action id="discardAction" type="lookup_discard"/>
+    </actions>
+    <layout>
+        <genericFilter id="genericFilter"
+                       dataLoader="transitionsDl">
+            <properties include=".*"/>
+        </genericFilter>
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+            <button id="createButton" action="transitionsDataGrid.create"/>
+            <button id="editButton" action="transitionsDataGrid.edit"/>
+            <button id="refreshButton" action="transitionsDataGrid.refresh"/>
+            <button id="removeButton" action="transitionsDataGrid.remove"/>
+            <simplePagination id="pagination" dataLoader="transitionsDl"/>
+        </hbox>
+        <dataGrid id="transitionsDataGrid"
+                  width="100%"
+                  minHeight="20em"
+                  dataContainer="transitionsDc"
+                  columnReorderingAllowed="true">
+            <actions>
+                <action id="create" type="list_create"/>
+                <action id="edit" type="list_edit"/>
+                <action id="refresh" type="list_refresh"/>
+                <action id="remove" type="list_remove"/>
+            </actions>
+            <columns resizable="true">
+                <column property="sourceState"/>
+                <column property="event"/>
+                <column property="targetState"/>
+                <column property="codeWorkflow"/>
+                <column property="required_role"/>
+            </columns>
+        </dataGrid>
+        <hbox id="lookupActions" visible="false">
+            <button id="selectButton" action="selectAction"/>
+            <button id="discardButton" action="discardAction"/>
+        </hbox>
+    </layout>
+</view>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<menu-config xmlns="http://jmix.io/schema/flowui/menu">
+
+    <menu id="application" title="msg://com.company.gestionworkflow/menu.application.title" opened="true">
+        <item view="User.list" title="msg://com.company.gestionworkflow.view.user/UserListView.title"/>
+        <item view="State.list" title="msg://com.company.gestionworkflow.view.state/stateListView.title"/>
+        <item view="Event.list" title="msg://com.company.gestionworkflow.view.event/eventListView.title"/>
+        <item view="Transition.list"
+              title="msg://com.company.gestionworkflow.view.transition/transitionListView.title"/>
+        <item view="Orders.list" title="msg://com.company.gestionworkflow.view.orders/ordersListView.title"/>
+        <item view="Vente.list" title="msg://com.company.gestionworkflow.view.vente/venteListView.title"/>
+    </menu>
+
+</menu-config>

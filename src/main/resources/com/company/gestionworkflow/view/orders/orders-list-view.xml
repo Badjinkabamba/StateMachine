@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
+      title="msg://ordersListView.title"
+      focusComponent="ordersesDataGrid">
+    <data>
+        <collection id="ordersesDc"
+                    class="com.company.gestionworkflow.entity.Orders">
+            <fetchPlan extends="_base">
+                <property name="status" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader id="ordersesDl" readOnly="true">
+                <query>
+                    <![CDATA[select e from Orders e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <urlQueryParameters>
+            <genericFilter component="genericFilter"/>
+            <pagination component="pagination"/>
+        </urlQueryParameters>
+    </facets>
+    <actions>
+        <action id="selectAction" type="lookup_select"/>
+        <action id="discardAction" type="lookup_discard"/>
+    </actions>
+    <layout>
+        <genericFilter id="genericFilter"
+                       dataLoader="ordersesDl">
+            <properties include=".*"/>
+        </genericFilter>
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+            <button id="createButton" action="ordersesDataGrid.create"/>
+            <button id="editButton" action="ordersesDataGrid.edit"/>
+            <button id="refreshButton" action="ordersesDataGrid.refresh"/>
+            <button id="removeButton" action="ordersesDataGrid.remove"/>
+            <simplePagination id="pagination" dataLoader="ordersesDl"/>
+        </hbox>
+        <dataGrid id="ordersesDataGrid"
+                  width="100%"
+                  minHeight="20em"
+                  dataContainer="ordersesDc"
+                  columnReorderingAllowed="true">
+            <actions>
+                <action id="create" type="list_create"/>
+                <action id="edit" type="list_edit"/>
+                <action id="refresh" type="list_refresh"/>
+                <action id="remove" type="list_remove"/>
+            </actions>
+            <columns resizable="true">
+                <column property="name"/>
+                <column property="status" header="Status" />
+                <column property="codeWorkflow" header="Workflow"/>
+            </columns>
+        </dataGrid>
+        <hbox id="lookupActions" visible="false">
+            <button id="selectButton" action="selectAction"/>
+            <button id="discardButton" action="discardAction"/>
+        </hbox>
+    </layout>
+</view>

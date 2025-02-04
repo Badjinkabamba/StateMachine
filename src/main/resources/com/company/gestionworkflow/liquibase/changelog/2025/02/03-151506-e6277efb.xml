@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1" author="GestionWorkflow">
+        <addColumn tableName="ORDERS">
+            <column name="codeWorkflow" type="VARCHAR(255)"/>
+        </addColumn>
+
+        <addNotNullConstraint columnName="codeWorkflow" defaultNullValue="''" tableName="ORDERS"/>
+    </changeSet>
+    <changeSet id="2" author="GestionWorkflow">
+        <addColumn tableName="ORDERS">
+            <column name="status_id" type="UUID"/>
+        </addColumn>
+
+        <addNotNullConstraint columnName="status_id" tableName="ORDERS"/>
+    </changeSet>
+    <changeSet id="3" author="GestionWorkflow">
+        <addForeignKeyConstraint baseColumnNames="status_id" baseTableName="ORDERS" constraintName="FK_ORDERS_ON_STATUS"
+                                 referencedColumnNames="ID" referencedTableName="STATE"/>
+    </changeSet>
+</databaseChangeLog>
